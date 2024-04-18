@@ -1,0 +1,1 @@
+/home/dera0219/project_paper4/05_code/read_control_fastqc_illumina_dna.sh

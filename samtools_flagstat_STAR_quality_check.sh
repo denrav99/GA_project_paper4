@@ -1,0 +1,1 @@
+/home/dera0219/project_paper4/05_code/samtools_flagstat_STAR_quality_check.sh
