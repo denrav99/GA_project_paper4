@@ -8,7 +8,7 @@
 #SBATCH -J eggNOG
 #SBATCH --mail-type=ALL 
 #SBATCH --mail-user denise.ravinale.0219@student.uu.se
-#SBATCH --output=/home/dera0219/project_paper4/03_func_struc_annotation/eggNOG/eggNOG_version2/eggNOG2.out
+#SBATCH --output=/home/dera0219/project_paper4/03_func_struc_annotation/eggNOG/eggNOG_try2/eggNOG_try2.out
 
 # Load modules
 module load bioinfo-tools
@@ -16,9 +16,10 @@ module load eggNOG-mapper
 
 # Your commands
 
-fasta_dir=/home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/gffread
-BRAKER_gff_file=/home/dera0219/project_paper4/03_func_struc_annotation/BRAKER
+chmod a+w /home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/augustus.hints.gff3
 
-emapper.py -m diamond --itype CDS --translate -i "$fasta_dir"/BRAKER_results_converted.fna -o /domus/h1/dera0219/project_paper4/03_func_struc_annotation/eggNOG \
---decorate_gff "$BRAKER_gff_file"/augustus.hints.gff --decorate_gff_ID_field GeneID --cpu 8
+fasta_dir=/home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/gffread
+
+emapper.py -m diamond --itype CDS --translate -i "$fasta_dir"/BRAKER_gff3_converted.fna -o /domus/h1/dera0219/project_paper4/03_func_struc_annotation/eggNOG/eggNOG_try2/eggNOG_try2 \
+--decorate_gff /home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/augustus.hints.gff3  --cpu 8
 

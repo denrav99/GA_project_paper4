@@ -19,6 +19,7 @@ module load blast/2.9.0+
 module load GenomeThreader/1.7.0
 module load samtools/1.8
 module load GeneMark/4.33-es_Perl5.24.1
+module load biopython
 
 cp -vf /sw/bioinfo/GeneMark/4.33-es/snowy/gm_key $HOME/.gm_key
 
@@ -41,8 +42,7 @@ braker.pl \
 --workingdir=/home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/ \
 --useexisting \
 --softmasking \
+--gff3 \
 --AUGUSTUS_CONFIG_PATH=/home/dera0219/project_paper4/03_func_struc_annotation/BRAKER/augustus_config \
-#--AUGUSTUS_BIN_PATH=/sw/bioinfo/augustus/3.4.0/snowy/bin \
-#--AUGUSTUS_SCRIPTS_PATH=/sw/bioinfo/augustus/3.4.0/snowy/scripts \
-#--GENEMARK_PATH=/sw/bioinfo/GeneMark/4.33-es/snowy
+
  
