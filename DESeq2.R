@@ -47,13 +47,13 @@ ddsHTSeq_tissue <- DESeqDataSetFromMatrix(countData = sampleTable, colData = Met
 ddsHT_seq_cultivar <- DESeqDataSetFromMatrix(countData = sampleTable, colData = MetaData, design = ~ Cultivar)
 
 # Perform DESeq2
-dds <- DESeq(ddsHT_seq_cultivar)
+dds <- DESeq(ddsHTSeq_tissue)
 results <- results(dds)
 normalized_counts <- counts(dds, normalized = TRUE)
 
 # Perform PCA
 rld <- rlog(dds)
-plotPCA(rld, intgroup = c("Cultivar"))
+plotPCA(rld, intgroup = c("Cultivar", "tissue"))
 
 # Heatmap
 
@@ -64,7 +64,7 @@ top_10_DE_genes <- head(row.names(results[order(results$padj), ]), 10)
 top_10_DE_genes <- head(row.names(results[order(results$padj), ]), 10)
 
 # Subset rlog data to include only the top 10 differentially expressed genes
-rlog_data_top_10_DE <- rlog_data[top_10_DE_genes, ]
+rlog_data_top_10_DE <- normalized_counts[top_10_DE_genes, ]
 
 # Set row names to the data matrix
 rownames(rlog_data_top_10_DE) <- top_10_DE_genes
@@ -73,17 +73,17 @@ rownames(rlog_data_top_10_DE) <- top_10_DE_genes
 tissue_types <- MetaData$tissue
 cultivar <- MetaData$Cultivar
 
-# Create column names combining sample names, tissue types, and cultivar
-col_names_with_tissue <- paste(colnames(rlog_data_top_10_DE), cultivar, sep = " - ")
+# Create column names without "SRR" names
+col_names_without_SRR <- gsub("^SRR[0-9]+_", "", colnames(rlog_data_top_10_DE))
 
-# Set column names to include both sample names, tissue types, and cultivar
-colnames(rlog_data_top_10_DE) <- col_names_with_tissue
+# Set column names to include both sample names, tissue types, and cultivar without "SRR" names
+colnames(rlog_data_top_10_DE) <- paste(col_names_without_SRR, cultivar, sep = " - ")
 
 # Create heatmap for the top 10 differentially expressed genes
 pheatmap(as.matrix(rlog_data_top_10_DE), 
          scale = "row", 
          col = colorRampPalette(rev(brewer.pal(9, "RdBu")))(100),
-         main = "Heatmap of Top 10 Differentially Expressed Genes (rlog-transformed) for cultivar design",
+         main = "Top 10 Differentially Expressed Genes for  design",
          labRow = TRUE,  # Show row labels (gene names)
          labCol = TRUE)  # Show column labels
 
